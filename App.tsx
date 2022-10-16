@@ -1,4 +1,9 @@
-import React, {ChangeEvent, useState, type PropsWithChildren} from 'react';
+import React, {
+  ChangeEvent,
+  useRef,
+  useState,
+  type PropsWithChildren,
+} from 'react';
 import {
   Alert,
   Button,
@@ -14,15 +19,31 @@ import {
 
 import {Header} from './Components/Header/Header';
 import config from './config.json';
+import axios from 'axios';
 
-var client_id = config.NAVER_APIKEY;
-var client_secret = config.NAVER_APISECRET;
+const client_id = config.NAVER_APIKEY;
+const client_secret = config.NAVER_APISECRET;
 
 const App = () => {
   const [inputText, setInputText] = useState<string>('');
-
-  const requestTranslation = () => {
-    // todo: 네이버 API 연동해야함.
+  const requestTranslation = async () => {
+    const options = {
+      source: 'en',
+      target: 'ko',
+      text: inputText,
+    };
+    const request = await axios.post(
+      'https://openapi.naver.com/v1/papago/n2mt',
+      options,
+      {
+        headers: {
+          'X-Naver-Client-Id': client_id,
+          'X-Naver-Client-Secret': client_secret,
+        },
+      },
+    );
+    console.log(request.data.message.result.translatedText);
+    Alert.alert(request.data.message.result.translatedText);
   };
 
   const InputText = () => {
