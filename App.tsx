@@ -11,10 +11,19 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+
 import {Header} from './Components/Header/Header';
+import config from './config.json';
+
+var client_id = config.NAVER_APIKEY;
+var client_secret = config.NAVER_APISECRET;
 
 const App = () => {
   const [inputText, setInputText] = useState<string>('');
+
+  const requestTranslation = () => {
+    // todo: 네이버 API 연동해야함.
+  };
 
   const InputText = () => {
     return (
@@ -44,7 +53,7 @@ const App = () => {
         <View style={styles.button}>
           <Button
             onPress={() => {
-              Alert.alert(inputText);
+              requestTranslation();
             }}
             color={'#fff'}
             title={'Change'}></Button>
